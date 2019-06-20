@@ -9,8 +9,9 @@ const BenchmarkClass = {
 };
 
 async function main() {
-  inputElement.setAttribute('class', 'disabled');
+  inputElement.setAttribute('disabled', true);
   pickBtnElement.setAttribute('class', 'btn btn-primary disabled');
+  runButton.setAttribute('disabled', true);
   let logger = new Logger(document.querySelector('#log'));
   logger.group('Benchmark');
   try {
@@ -59,5 +60,6 @@ async function main() {
   }
   inputElement.removeAttribute('disabled');
   pickBtnElement.setAttribute('class', 'btn btn-primary');
+  runButton.removeAttribute('disabled');
   logger.groupEnd();
 }

@@ -10,6 +10,7 @@ let categoryElement = document.getElementById('categoryName');
 let modelElement = document.getElementById('modelName');
 let preferDivElement = document.getElementById('preferDiv');
 let preferSelectElement = document.getElementById('preferSelect');
+let runButton = document.querySelector('#runButton');
 
 function getPreferString() {
   return preferSelectElement.options[preferSelectElement.selectedIndex].value;
@@ -199,7 +200,5 @@ document.addEventListener('DOMContentLoaded', () => {
     option.textContent = `${configuration.backend}`;
     document.querySelector('#configurations').appendChild(option);
   }
-  let button = document.querySelector('#runButton');
-  button.setAttribute('class', 'btn btn-primary');
-  button.addEventListener('click', main);
+  runButton.addEventListener('click', main);
 });

@@ -45,7 +45,7 @@ class SDBenchmark extends Benchmark {
     }
     if (pnConfigDic === null) {
       // Read modelVersion outputStride scaleFactor minScore from json file
-      let posenetConfigURL = './posenetConfig.json';
+      let posenetConfigURL = './resources/posenetConfig.json';
       let pnConfigText = await loadUrl(posenetConfigURL);
       pnConfigDic = JSON.parse(pnConfigText);
     }
