@@ -16,7 +16,7 @@ async function main() {
   try {
     let configuration = JSON.parse(document.querySelector('#configurations').selectedOptions[0].value);
     configuration.modelName = document.querySelector('#modelName').selectedOptions[0].text;
-    configuration.modelClass = document.querySelector('#modelName').selectedOptions[0].className;
+    configuration.category = categoryElement.options[categoryElement.selectedIndex].id;
     configuration.iterations = Number(document.querySelector('#iterations').value) + 1;
     logger.group('Environment Information');
     logger.log(`${'UserAgent'.padStart(12)}: ${(navigator.userAgent) || '(N/A)'}`);
@@ -37,7 +37,7 @@ async function main() {
     });
     logger.groupEnd();
     logger.group('Run');
-    let benchmark = new BenchmarkClass[configuration.modelClass](configuration.modelName, configuration.backend, configuration.iterations);
+    let benchmark = new BenchmarkClass[configuration.category](configuration.modelName, configuration.backend, configuration.iterations);
     benchmark.onExecuteSingle = (i => logger.log(`Iteration: ${i + 1} / ${configuration.iterations}`));
     let summary = await benchmark.runAsync();
     benchmark.finalize();

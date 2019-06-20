@@ -6,6 +6,7 @@ let segCanvas = null;
 let superCanvas = null;
 let bkImageSrc = null;
 let imageElement = document.getElementById('image');
+let categoryElement = document.getElementById('categoryName');
 let modelElement = document.getElementById('modelName');
 let preferDivElement = document.getElementById('preferDiv');
 let preferSelectElement = document.getElementById('preferSelect');
@@ -36,8 +37,8 @@ function updateOpsSelect() {
   supportedOps = getSelectedOps();
 }
 
-async function setSuperImageUI(modelClass, modelName) {
-  if (modelClass === 'super_resolution') {
+async function setSuperImageUI(categoryId, modelName) {
+  if (categoryId === 'super_resolution') {
     imageElement.parentNode.setAttribute('align', '');
     imageElement.style.width = '300px';
     imageElement.style.height = '300px';
@@ -69,12 +70,12 @@ async function setSuperImageUI(modelClass, modelName) {
 function setImageSrc() {
   bkImageSrc = null;
   let inputFile = document.getElementById('input').files[0];
-  let modelClass = modelElement.options[modelElement.selectedIndex].className;
+  let categoryId = categoryElement.options[categoryElement.selectedIndex].id;
   let modelName = modelElement.options[modelElement.selectedIndex].modelName;
   if (inputFile !== undefined) {
     imageElement.src = URL.createObjectURL(inputFile);
   } else {
-    switch (modelClass) {
+    switch (categoryId) {
       case 'image_classification':
         imageElement.src = '../examples/image_classification/img/test.jpg';
         break;
@@ -100,7 +101,16 @@ function setImageSrc() {
         imageElement.src = '../examples/image_classification/img/test.jpg';
     }
   }
-  setSuperImageUI(modelClass, modelName);
+  setSuperImageUI(categoryId, modelName);
+}
+
+function setModelsOptions(category) {
+  let modelsList = modelZoo[category];
+  for (let model of modelsList) {
+    let option = document.createElement('option');
+    option.textContent = model.modelName;
+    document.querySelector('#modelName').appendChild(option);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -110,6 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
   showCanvasElement = document.getElementById('showCanvas');
   segCanvas = document.getElementById('segCanvas');
   superCanvas = document.getElementById('superCanvas');
+  let curCategory = categoryElement.options[categoryElement.selectedIndex].className;
+  setModelsOptions(curCategory);
   inputElement.addEventListener('change', (e) => {
     $('.labels-wrapper').empty();
     let files = e.target.files;
@@ -119,9 +131,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     setImageSrc();
   }, false);
+  categoryElement.addEventListener('change', (e) => {
+    $('#modelName').empty();
+    $('.labels-wrapper').empty();
+    curCategory = categoryElement.options[categoryElement.selectedIndex].className;
+    setModelsOptions(curCategory);
+    setImageSrc();
+  }, false);
   modelElement.addEventListener('change', (e) => {
     $('.labels-wrapper').empty();
-    setImageSrc();
   }, false);
   let configurationsElement = document.getElementById('configurations');
   configurationsElement.addEventListener('change', (e) => {
@@ -158,19 +176,19 @@ document.addEventListener('DOMContentLoaded', () => {
   let polyfillConfigurations = [{
     backend: 'WASM',
     modelName: '',
-    modelClass: '',
+    category: '',
     iterations: 0
   },
   {
     backend: 'WebGL',
     modelName: '',
-    modelClass: '',
+    category: '',
     iterations: 0
   }];
   let webnnConfigurations = [{
     backend: 'WebNN',
     modelName: '',
-    modelClass: '',
+    category: '',
     iterations: 0
   }];
   let configurations = [];

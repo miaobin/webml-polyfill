@@ -47,50 +47,62 @@
         <div class="col-12">
           <h1>WebNN Benchmark</h1>
           <div>
+            <h4>Category</h4>
+            <select id="categoryName">
+              <option class="imageClassificationModels" id="image_classification" selected >Image Classification</option>
+              <option class="objectDetectionModels" id="object_detection" >Object Detection</option>
+              <option class="humanPoseEstimationModels" id="skeleton_detection" >Skeleton Detection</option>
+              <option class="semanticSegmentationModels" id="semantic_segmentation" > Semantic Segmentation</option>
+              <option class="superResolutionModels" id="super_resolution" >Super Resolution</option>
+              <option class="faceDetectionModels" id="facial_landmark_detection" >Facial Landmark Detection</option>
+              <option class="faceDetectionModels" id="emotion_analysis" >Emotion Analysis</option>
+            </select>
+          </div>
+          <div>
             <h4>Model</h4>
             <select id="modelName">
-              <option class="image_classification" selected >MobileNet v1 (TFLite)</option>
-              <option class="image_classification" >MobileNet v1 Quant (TFLite)</option>
-              <option class="image_classification" >MobileNet v2 (TFLite)</option>
-              <option class="image_classification" >MobileNet v2 Quant (TFLite)</option>
-              <option class="image_classification" >SqueezeNet (TFLite)</option>
-              <option class="image_classification" >Inception v3 (TFLite)</option>
-              <option class="image_classification" >Inception v3 Quant (TFLite)</option>
-              <option class="image_classification" >Inception v4 (TFLite)</option>
-              <option class="image_classification" >Inception v4 Quant (TFLite)</option>
-              <option class="image_classification" >Inception ResNet v2 (TFLite)</option>
-              <option class="image_classification" >MobileNet v2 (ONNX)</option>
-              <option class="image_classification" >SqueezeNet (ONNX)</option>
-              <option class="image_classification" >ResNet50 v1 (ONNX)</option>
-              <option class="image_classification" >ResNet50 v2 (ONNX)</option>
-              <option class="image_classification" >Inception v2 (ONNX)</option>
-              <option class="image_classification" >DenseNet (ONNX)</option>
-              <option class="object_detection" >SSD MobileNet v1 (TFLite)</option>
-              <option class="object_detection" >SSD MobileNet v1 Quant (TFLite)</option>
-              <option class="object_detection" >SSD MobileNet v2 (TFLite)</option>
-              <option class="object_detection" >SSD MobileNet v2 Quant (TFLite)</option>
-              <option class="object_detection" >SSDLite MobileNet v2 (TFLite)</option>
-              <option class="object_detection" >Tiny Yolo v2 COCO (TFLite)</option>
-              <option class="object_detection" >Tiny Yolo v2 VOC (TFLite)</option>
-              <option class="skeleton_detection" >PoseNet</option>
-              <option class="semantic_segmentation" >Deeplab 224 (TFLite)</option>
-              <option class="semantic_segmentation" >Deeplab 224 Atrous (TFLite)</option>
-              <option class="semantic_segmentation" >Deeplab 257 (TFLite)</option>
-              <option class="semantic_segmentation" >Deeplab 257 Atrous (TFLite)</option>
-              <option class="semantic_segmentation" >Deeplab 321 (TFLite)</option>
-              <option class="semantic_segmentation" >Deeplab 321 Atrous (TFLite)</option>
-              <option class="semantic_segmentation" >Deeplab 513 (TFLite)</option>
-              <option class="semantic_segmentation" >Deeplab 513 Atrous (TFLite)</option>
-              <option class="facial_landmark_detection" >SSD MobileNet v1 (TFlite)</option>
-              <option class="facial_landmark_detection" >SSD MobileNet v2 (TFlite)</option>
-              <option class="facial_landmark_detection" >SSDLite MobileNet v2 (TFlite)</option>
-              <option class="facial_landmark_detection" >Tiny Yolo v2 (TFlite)</option>
-              <option class="super_resolution" >SRGAN 96x4 (TFLite)</option>
-              <option class="super_resolution" >SRGAN 128x4 (TFLite)</option>
-              <option class="emotion_analysis" >SSD MobileNet v1 (TFlite)</option>
-              <option class="emotion_analysis" >SSD MobileNet v2 (TFlite)</option>
-              <option class="emotion_analysis" >SSDLite MobileNet v2 (TFlite)</option>
-              <option class="emotion_analysis" >Tiny Yolo v2 (TFlite)</option> 
+              <!-- <option class="image_classification" hidden >MobileNet v1 (TFLite)</option>
+              <option class="image_classification" hidden >MobileNet v1 Quant (TFLite)</option>
+              <option class="image_classification" hidden >MobileNet v2 (TFLite)</option>
+              <option class="image_classification" hidden >MobileNet v2 Quant (TFLite)</option>
+              <option class="image_classification" hidden >SqueezeNet (TFLite)</option>
+              <option class="image_classification" hidden >Inception v3 (TFLite)</option>
+              <option class="image_classification" hidden >Inception v3 Quant (TFLite)</option>
+              <option class="image_classification" hidden >Inception v4 (TFLite)</option>
+              <option class="image_classification" hidden >Inception v4 Quant (TFLite)</option>
+              <option class="image_classification" hidden >Inception ResNet v2 (TFLite)</option>
+              <option class="image_classification" hidden >MobileNet v2 (ONNX)</option>
+              <option class="image_classification" hidden >SqueezeNet (ONNX)</option>
+              <option class="image_classification" hidden >ResNet50 v1 (ONNX)</option>
+              <option class="image_classification" hidden >ResNet50 v2 (ONNX)</option>
+              <option class="image_classification" hidden >Inception v2 (ONNX)</option>
+              <option class="image_classification" hidden >DenseNet 121 (ONNX)</option>
+              <option class="object_detection" hidden >SSD MobileNet v1 (TFLite)</option>
+              <option class="object_detection" hidden >SSD MobileNet v1 Quant (TFLite)</option>
+              <option class="object_detection" hidden >SSD MobileNet v2 (TFLite)</option>
+              <option class="object_detection" hidden >SSD MobileNet v2 Quant (TFLite)</option>
+              <option class="object_detection" hidden >SSDLite MobileNet v2 (TFLite)</option>
+              <option class="object_detection" hidden >Tiny Yolo v2 COCO (TFLite)</option>
+              <option class="object_detection" hidden >Tiny Yolo v2 VOC (TFLite)</option>
+              <option class="skeleton_detection" hidden >PoseNet</option>
+              <option class="semantic_segmentation" hidden >Deeplab 224 (TFLite)</option>
+              <option class="semantic_segmentation" hidden >Deeplab 224 Atrous (TFLite)</option>
+              <option class="semantic_segmentation" hidden >Deeplab 257 (TFLite)</option>
+              <option class="semantic_segmentation" hidden >Deeplab 257 Atrous (TFLite)</option>
+              <option class="semantic_segmentation" hidden >Deeplab 321 (TFLite)</option>
+              <option class="semantic_segmentation" hidden >Deeplab 321 Atrous (TFLite)</option>
+              <option class="semantic_segmentation" hidden >Deeplab 513 (TFLite)</option>
+              <option class="semantic_segmentation" hidden >Deeplab 513 Atrous (TFLite)</option>
+              <option class="facial_landmark_detection" hidden >SSD MobileNet v1 Face (TFlite)</option>
+              <option class="facial_landmark_detection" hidden >SSD MobileNet v2 Face (TFlite)</option>
+              <option class="facial_landmark_detection" hidden >SSDLite MobileNet v2 Face (TFlite)</option>
+              <option class="facial_landmark_detection" hidden >Tiny Yolo v2 Face (TFlite)</option>
+              <option class="super_resolution" hidden >SRGAN 96x4 (TFLite)</option>
+              <option class="super_resolution" hidden >SRGAN 128x4 (TFLite)</option>
+              <option class="emotion_analysis" hidden >SSD MobileNet v1 Face (TFlite)</option>
+              <option class="emotion_analysis" hidden >SSD MobileNet v2 Face (TFlite)</option>
+              <option class="emotion_analysis" hidden >SSDLite MobileNet v2 Face (TFlite)</option>
+              <option class="emotion_analysis" hidden >Tiny Yolo v2 Face (TFlite)</option>  -->
             </select>
           </div>
           <div>
