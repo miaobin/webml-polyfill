@@ -65,7 +65,13 @@ class ICBenchmark extends Benchmark {
         throw new Error(`Invalid model ${err}`);
       }
       rawModel = onnx.ModelProto.decode(loadResult.bytes);
-      importerClass =  OnnxModelImporter;
+      importerClass = OnnxModelImporter;
+    } else if (modelName.indexOf('OpenVino')!== -1) {
+      const networkFile = this.modelInfoDict.modelFile.replace(/bin$/, 'xml');
+      const networkText = await loadUrl('../examples/util/' + networkFile, false);
+      const weightsBuffer = loadResult.bytes.buffer;
+      rawModel = new OpenVINOModel(networkText, weightsBuffer);
+      importerClass = OpenVINOModelImporter;
     }
     let postOptions = this.modelInfoDict.postOptions || {};
     let kwargs = {
