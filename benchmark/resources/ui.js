@@ -1,10 +1,6 @@
 let inputElement = null;
 let pickBtnElement = null;
-let canvasElement = null;
 let showCanvasElement = null;
-let segCanvas = null;
-let superCanvas = null;
-let bkImageSrc = null;
 let imageElement = document.getElementById('image');
 let categoryElement = document.getElementById('categoryName');
 let modelElement = document.getElementById('modelName');
@@ -38,41 +34,16 @@ function updateOpsSelect() {
   supportedOps = getSelectedOps();
 }
 
-async function setSuperImageUI(categoryId, modelName) {
-  if (categoryId === 'super_resolution') {
-    imageElement.parentNode.setAttribute('align', '');
-    imageElement.style.width = '300px';
-    imageElement.style.height = '300px';
-    let srCanvas = document.createElement('canvas');
-    let srCtx = srCanvas.getContext('2d');
-    switch (modelName) {
-      case 'SRGAN 96x4 (TFLite)':
-        srCanvas.width = 96;
-        srCanvas.height = 96;
-        break;
-      case 'SRGAN 128x4 (TFLite)':
-        srCanvas.width = 128;
-        srCanvas.height = 128;
-        break;
-      default:
-        srCanvas.width = 96;
-        srCanvas.height = 96;
-    }
-    let imageBytes = await loadImage(imageElement.src);
-    srCtx.drawImage(imageBytes, 0, 0, srCanvas.width, srCanvas.height);
-    imageElement.src = srCanvas.toDataURL();
-  } else {
-    imageElement.parentNode.setAttribute('align', 'center');
-    imageElement.style.width = null;
-    imageElement.style.height = null;
-  }
+function showImage() {
+  let ctx = showCanvasElement.getContext("2d");
+  showCanvasElement.setAttribute("width", imageElement.width);
+  showCanvasElement.setAttribute("height", imageElement.height);
+  ctx.drawImage(imageElement, 0, 0);
 }
 
 function setImageSrc() {
-  bkImageSrc = null;
   let inputFile = document.getElementById('input').files[0];
   let categoryId = categoryElement.options[categoryElement.selectedIndex].id;
-  let modelName = modelElement.options[modelElement.selectedIndex].modelName;
   if (inputFile !== undefined) {
     imageElement.src = URL.createObjectURL(inputFile);
   } else {
@@ -102,7 +73,9 @@ function setImageSrc() {
         imageElement.src = '../examples/image_classification/img/test.jpg';
     }
   }
-  setSuperImageUI(categoryId, modelName);
+  imageElement.onload = function() {
+    showImage();
+  }
 }
 
 function setModelsOptions(category) {
@@ -117,17 +90,13 @@ function setModelsOptions(category) {
 document.addEventListener('DOMContentLoaded', () => {
   inputElement = document.getElementById('input');
   pickBtnElement = document.getElementById('pickButton');
-  canvasElement = document.getElementById('canvas');
   showCanvasElement = document.getElementById('showCanvas');
-  segCanvas = document.getElementById('segCanvas');
-  superCanvas = document.getElementById('superCanvas');
   let curCategory = categoryElement.options[categoryElement.selectedIndex].className;
   setModelsOptions(curCategory);
   inputElement.addEventListener('change', (e) => {
     $('.labels-wrapper').empty();
     let files = e.target.files;
     if (files.length > 0) {
-      bkImageSrc = null;
       imageElement.src = URL.createObjectURL(files[0]);
     }
     setImageSrc();
@@ -147,8 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
     $('.labels-wrapper').empty();
     setImageSrc();
     if (JSON.parse(e.target.value).backend === 'WebNN') {
+      $("#preferSelect option[value='sustained']").prop("selected", true);
       document.querySelector('#preferSelect option[value=none]').disabled = true;
     } else {
+      $("#preferSelect option[value='none']").prop("selected", true);
       document.querySelector('#preferSelect option[value=none]').disabled = false;
     }
     updateOpsSelect();
@@ -201,4 +172,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#configurations').appendChild(option);
   }
   runButton.addEventListener('click', main);
+  showImage();
 });

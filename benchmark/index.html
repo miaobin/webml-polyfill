@@ -8,10 +8,8 @@
       body {
         font-size: 13px;
       }
-      canvas {
-        display: none;
-        position: absolute;
-        z-index: -3;
+      #showCanvas {
+        width: 60%;
       }
       .top-margin {
         margin-top:10px;
@@ -60,63 +58,19 @@
           </div>
           <div>
             <h4>Model</h4>
-            <select id="modelName">
-              <!-- <option class="image_classification" hidden >MobileNet v1 (TFLite)</option>
-              <option class="image_classification" hidden >MobileNet v1 Quant (TFLite)</option>
-              <option class="image_classification" hidden >MobileNet v2 (TFLite)</option>
-              <option class="image_classification" hidden >MobileNet v2 Quant (TFLite)</option>
-              <option class="image_classification" hidden >SqueezeNet (TFLite)</option>
-              <option class="image_classification" hidden >Inception v3 (TFLite)</option>
-              <option class="image_classification" hidden >Inception v3 Quant (TFLite)</option>
-              <option class="image_classification" hidden >Inception v4 (TFLite)</option>
-              <option class="image_classification" hidden >Inception v4 Quant (TFLite)</option>
-              <option class="image_classification" hidden >Inception ResNet v2 (TFLite)</option>
-              <option class="image_classification" hidden >MobileNet v2 (ONNX)</option>
-              <option class="image_classification" hidden >SqueezeNet (ONNX)</option>
-              <option class="image_classification" hidden >ResNet50 v1 (ONNX)</option>
-              <option class="image_classification" hidden >ResNet50 v2 (ONNX)</option>
-              <option class="image_classification" hidden >Inception v2 (ONNX)</option>
-              <option class="image_classification" hidden >DenseNet 121 (ONNX)</option>
-              <option class="object_detection" hidden >SSD MobileNet v1 (TFLite)</option>
-              <option class="object_detection" hidden >SSD MobileNet v1 Quant (TFLite)</option>
-              <option class="object_detection" hidden >SSD MobileNet v2 (TFLite)</option>
-              <option class="object_detection" hidden >SSD MobileNet v2 Quant (TFLite)</option>
-              <option class="object_detection" hidden >SSDLite MobileNet v2 (TFLite)</option>
-              <option class="object_detection" hidden >Tiny Yolo v2 COCO (TFLite)</option>
-              <option class="object_detection" hidden >Tiny Yolo v2 VOC (TFLite)</option>
-              <option class="skeleton_detection" hidden >PoseNet</option>
-              <option class="semantic_segmentation" hidden >Deeplab 224 (TFLite)</option>
-              <option class="semantic_segmentation" hidden >Deeplab 224 Atrous (TFLite)</option>
-              <option class="semantic_segmentation" hidden >Deeplab 257 (TFLite)</option>
-              <option class="semantic_segmentation" hidden >Deeplab 257 Atrous (TFLite)</option>
-              <option class="semantic_segmentation" hidden >Deeplab 321 (TFLite)</option>
-              <option class="semantic_segmentation" hidden >Deeplab 321 Atrous (TFLite)</option>
-              <option class="semantic_segmentation" hidden >Deeplab 513 (TFLite)</option>
-              <option class="semantic_segmentation" hidden >Deeplab 513 Atrous (TFLite)</option>
-              <option class="facial_landmark_detection" hidden >SSD MobileNet v1 Face (TFlite)</option>
-              <option class="facial_landmark_detection" hidden >SSD MobileNet v2 Face (TFlite)</option>
-              <option class="facial_landmark_detection" hidden >SSDLite MobileNet v2 Face (TFlite)</option>
-              <option class="facial_landmark_detection" hidden >Tiny Yolo v2 Face (TFlite)</option>
-              <option class="super_resolution" hidden >SRGAN 96x4 (TFLite)</option>
-              <option class="super_resolution" hidden >SRGAN 128x4 (TFLite)</option>
-              <option class="emotion_analysis" hidden >SSD MobileNet v1 Face (TFlite)</option>
-              <option class="emotion_analysis" hidden >SSD MobileNet v2 Face (TFlite)</option>
-              <option class="emotion_analysis" hidden >SSDLite MobileNet v2 Face (TFlite)</option>
-              <option class="emotion_analysis" hidden >Tiny Yolo v2 Face (TFlite)</option>  -->
-            </select>
+            <select id="modelName"></select>
           </div>
           <div>
             <h4>Backend</h4>
-            <select id="configurations">
-            </select>
+            <select id="configurations"></select>
           </div>
           <div id="preferDiv" class="prefer-show">
             <h4>Preference</h4>
             <select id="preferSelect">
-              <option value="sustained" selected>SUSTAINED_SPEED</option>
+              <option value="sustained">SUSTAINED_SPEED</option>
               <option value="fast">FAST_SINGLE_ANSWER</option>
               <option value="low">LOW_POWER</option>
-              <option value="none">None</option>
+              <option value="none" selected>None</option>
             </select>
           </div>
           <div>
@@ -124,7 +78,7 @@
             1(warming up) + <input type="number" id="iterations" min="1" size="4" value="200"/>
           </div>
           <div class="row top-margin">
-            <div class="col-4" id="supported-ops-select">
+            <div class="col-4" id="supported-ops-select" style="visibility: hidden">
               <label><input id="eagerMode" type="checkbox"> Eager Mode</label>
               <br><br>
               <button id="selectAllOps">Select All</button>
@@ -158,24 +112,13 @@
             </div>
             <div class="col-8" align="center">
               <canvas id="showCanvas"></canvas>
-              <canvas id="posePredictCanvas" width="513" height="513"></canvas>
-              <canvas id="segCanvas"></canvas>
-              <canvas id="superCanvas"></canvas>
-              <canvas id="canvas"></canvas>
-              <img id="image" crossorigin="anonymous" class="img-fluid" alt="Responsive image" src="../examples/image_classification/img/test.jpg">
-            </div>
-            <div class="col">
-            </div>
-          </div>
-          <div class='row labels-wrapper' id='labelitem'></div>
-          <div class="row top-margin">
-            <div class="col">
-            </div>
-            <div class="col" align="center">
-              <label id="pickButton" class="btn btn-primary">Pick Image <input type="file" id="input" accept="image/*" hidden>
-              </label>
-            </div>
-            <div class="col">
+              <img id="image" crossorigin="anonymous" class="img-fluid" alt="Responsive image" src="../examples/image_classification/img/test.jpg" hidden>
+              <div class='row labels-wrapper' id='labelitem' align="left" style="position: relative; left: 20%"></div>
+              <div class="col" style="padding-top: 10px">
+                <label id="pickButton" class="btn btn-primary">Pick Image
+                  <input type="file" id="input" accept="image/*" hidden>
+                </label>
+              </div>
             </div>
           </div>
           <button type="button" id="runButton" class="btn btn-primary">Run</button>

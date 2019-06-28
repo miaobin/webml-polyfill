@@ -13,6 +13,7 @@ class ICBenchmark extends Benchmark {
   }
 
   async setInputOutput() {
+    let canvasElement = document.createElement('canvas');
     let width = this.modelInfoDict.inputSize[1];
     let height = this.modelInfoDict.inputSize[0];
     const channels = this.modelInfoDict.inputSize[2];

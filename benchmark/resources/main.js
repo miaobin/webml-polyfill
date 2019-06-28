@@ -9,6 +9,8 @@ const BenchmarkClass = {
 };
 
 async function main() {
+  let ctx = showCanvasElement.getContext("2d");  
+  ctx.drawImage(imageElement, 0, 0);
   inputElement.setAttribute('disabled', true);
   pickBtnElement.setAttribute('class', 'btn btn-primary disabled');
   runButton.setAttribute('disabled', true);
